@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+    <form class="mt-5 mx-auto d-flex flex-column justify-content-center w-25 gap-2" method="post" action="{{ url_for('signin') }}">
+        {% if error %}
+            <p class="text-danger">{{ error }}</p>
+        {% endif %}
+        <input type="email" name="email" placeholder="Введите почту" />
+        <input type="password" name="password" placeholder="Введите пароль" />
+        <button type="submit" class="btn btn-primary">Войти</button>
+        <p class="d-flex mx-auto">Нет аккаунта? <a class="mx-1" href="/signup">Зарегистрироваться</a></p>
+    </form>
+{% endblock %}

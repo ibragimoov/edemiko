@@ -24,16 +24,33 @@
             <li class="nav-item">
               <a class="nav-link" href="#">Категории</a>
             </li>
-          <li class="nav-item">
+            <li class="nav-item">
               <a class="nav-link" href="/cart">Корзина</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">О нас</a>
             </li>
+            {% if not current_user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="/signin">Войти</a>
+              </li>
+            {% endif %}
           </ul>
+          {% if current_user.is_authenticated %}
+              <form method="post" action="{{ url_for('logout') }}">
+                <button class="btn btn-light" type="submit">Выйти</button>
+              </form>
+              <div class="">
+                <div class="mx-2 rounded-circle border d-flex justify-content-center align-items-center" style="width:40px;height:40px" alt="Avatar">
+                {{ current_user.first_name[0] }}
+                </div>
+              </div>
+            {% endif %}
           <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Поиск..." aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Поиск</button>
+            <div class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Поиск..." aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Поиск</button>
+            </div>
           </form>
         </div>
       </div>
