@@ -156,3 +156,22 @@ def register_routes(app, db, bcrypt):
         db.session.commit()
 
         return redirect(url_for('order_success', order_id=order.id, address=address))
+
+
+    @app.route('/profile')
+    def profile():
+        orders = Order.query.filter(Order.user_id == current_user.id).all()
+        print(orders)
+
+        return render_template('profile.html', orders=orders)
+
+
+    @app.route('/order/<int:id>')
+    def order_details(id):
+        order = Order.query.get(id)
+
+        products_in_order = OrderByProduct.query.filter(OrderByProduct.order_id == order.id).all()
+
+        print(products_in_order)
+
+        return render_template('order_details.html', order=order)

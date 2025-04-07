@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Информация о заказе{% endblock %}
+
+{% block content %}
+    <div class="p-3">
+        <h1>Информация о заказе</h1>
+
+        <table class="table table-striped w-50">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Итого</th>
+              <th scope="col">Адрес</th>
+              <th scope="col">Статус</th>
+              <th scope="col">Еще</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in orders %}
+                <tr>
+                    <th scope="row">{{ order.id }}</th>
+                    <td>{{ order.total }} ₽</td>
+                    <td>{{ order.address }}</td>
+                    <td>{{ order.status }}</td>
+                    <td>
+                        <button class="btn btn-dark">
+                            <a class="text-decoration-none text-white" href="/order/{{ order.id }}">Подробнее</a>
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+    </div>
+{% endblock %}
