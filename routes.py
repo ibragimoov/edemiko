@@ -104,6 +104,8 @@ def register_routes(app, db, bcrypt):
             password = request.form['password']
 
             user = User.query.filter(User.email == email).first()
+            if not user:
+                return render_template('signin.html', error=f'пользователь не найден')
 
             if bcrypt.check_password_hash(user.password, password):
                 # Допиши логику авторизации
@@ -170,8 +172,9 @@ def register_routes(app, db, bcrypt):
     def order_details(id):
         order = Order.query.get(id)
 
+        if not order:
+            return redirect(url_for('index'))
+
         products_in_order = OrderByProduct.query.filter(OrderByProduct.order_id == order.id).all()
 
-        print(products_in_order)
-
-        return render_template('order_details.html', order=order)
+        return render_template('order_details.html', order=order, products_in_order=products_in_order)

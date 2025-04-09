@@ -6,31 +6,55 @@
     <div class="p-3">
         <h1>Информация о заказе</h1>
 
-        <table class="table table-striped w-50">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Итого</th>
-              <th scope="col">Адрес</th>
-              <th scope="col">Статус</th>
-              <th scope="col">Еще</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for order in orders %}
-                <tr>
-                    <th scope="row">{{ order.id }}</th>
-                    <td>{{ order.total }} ₽</td>
-                    <td>{{ order.address }}</td>
-                    <td>{{ order.status }}</td>
-                    <td>
-                        <button class="btn btn-dark">
-                            <a class="text-decoration-none text-white" href="/order/{{ order.id }}">Подробнее</a>
-                        </button>
-                    </td>
-                </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+        <section class="h-100 h-custom">
+          <div class="py-5 h-100" style="max-width:1100px">
+            <div class="row h-100">
+              <div class="col-lg-8 col-xl-6">
+                <div class="card border-top border-bottom border-3">
+                  <div class="card-body p-5">
+
+                    <p class="lead fw-bold mb-5">Заказ #{{ order.id }}</p>
+
+                    <div class="row">
+                      <div class="col mb-3">
+                        <p class="small text-muted mb-1">Date</p>
+                        <p>10 April 2021</p>
+                      </div>
+                      <div class="col mb-3">
+                        <p class="small text-muted mb-1">Order No.</p>
+                        <p>012j1gvs356c</p>
+                      </div>
+                    </div>
+
+                    <div class="mx-n5 px-5 py-4" style="background-color: #f2f2f2;">
+                      <div class="row">
+                        <div class="col-md-8 col-lg-9">
+                          <p>BEATS Solo 3 Wireless Headphones</p>
+                        </div>
+                        <div class="col-md-4 col-lg-3">
+                          <p>£299.99</p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-8 col-lg-9">
+                          <p class="mb-0">Shipping</p>
+                        </div>
+                        <div class="col-md-4 col-lg-3">
+                          <p class="mb-0">£33.00</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row my-4">
+                      <div class="col-md-4 offset-md-8 col-lg-3 offset-lg-9">
+                        <p class="lead fw-bold mb-0 fs-5" style="color: blue">£262.99</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
     </div>
 {% endblock %}

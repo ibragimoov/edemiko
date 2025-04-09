@@ -30,6 +30,8 @@ class Product(db.Model):
     desc = db.Column(db.String)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
 
+    category = db.relationship('Category', backref='products')
+
 
 class Order(db.Model):
     __tablename__ = 'orders'
@@ -49,3 +51,6 @@ class OrderByProduct(db.Model):
     order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
     count = db.Column(db.Integer)
+
+    product = db.relationship('Product', backref='orders_by_products')
+    order = db.relationship('Order', backref='orders_by_products')

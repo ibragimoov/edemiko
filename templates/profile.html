@@ -20,7 +20,7 @@
         <table class="table table-striped w-50">
           <thead>
             <tr>
-              <th scope="col">#</th>
+              <th scope="col">№</th>
               <th scope="col">Итого</th>
               <th scope="col">Адрес</th>
               <th scope="col">Статус</th>
@@ -35,9 +35,11 @@
                     <td>{{ order.address }}</td>
                     <td>{{ order.status }}</td>
                     <td>
-                        <button class="btn btn-dark">
-                            <a class="text-decoration-none text-white" href="/order/{{ order.id }}">Подробнее</a>
-                        </button>
+                        <a class="text-decoration-none text-white" href="/order/{{ order.id }}">
+                            <button class="btn btn-dark">
+                                Подробнее
+                            </button>
+                        </a>
                     </td>
                 </tr>
             {% endfor %}
