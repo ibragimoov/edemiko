@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.title }}{% endblock %}
+
+{% block content %}
+    <div class="p-3">
+        <h1>{{ product.title }}</h1>
+
+        <div class="row">
+            <!-- Product Images -->
+            <div class="col-md-4 mb-4">
+                <img src="{{ product.image_url }}" alt="{{ product.title }}" class="img-fluid rounded mb-3 product-image" id="mainImage">
+            </div>
+
+            <!-- Product Details -->
+            <div class="col-md-8">
+                <p class="text-muted mb-4">SKU: {{ product.id }}</p>
+                <div class="mb-3">
+                    <span class="h4 me-2">{{ product.price }} рублей</span>
+                </div>
+                <div class="mb-3">
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <i class="bi bi-star-half text-warning"></i>
+                    <span class="ms-2">4.5 (120 отзывов)</span>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      Оставить отзыв
+                    </button>
+                </div>
+                <p class="mb-4">{{ product.desc }}</p>
+                <form method="post" action="{{ url_for('add_to_cart') }}">
+                    <input type="hidden" name="id" value="{{ product.id }}" />
+                    <input type="hidden" name="title" value="{{ product.title }}" />
+                    <input type="hidden" name="price" value="{{ product.price }}" />
+                    <input type="hidden" name="image_url" value="{{ product.image_url }}" />
+                    <div class="mb-4">
+                        <label for="quantity" class="form-label">Количество:</label>
+                        <input type="number" name="count" class="form-control" id="quantity" value="1" min="1" style="width: 80px;">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg mb-3 me-2">
+                        <i class="bi bi-cart-plus"></i> Добавить в корзину
+                    </button>
+                </form>
+                <button class="btn btn-outline-secondary btn-md mb-3">
+                    <i class="bi bi-heart"></i> Добавить в избранное
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                    <div class="col-md-6">
+                        <div class="rating-card p-4">
+                            <h5 class="mb-4">Оценка</h5>
+                            <div class="star-rating animated-stars">
+                                <input type="radio" id="star5" name="rating" value="5">
+                                <label for="star5" class="bi bi-star-fill"></label>
+                                <input type="radio" id="star4" name="rating" value="4">
+                                <label for="star4" class="bi bi-star-fill"></label>
+                                <input type="radio" id="star3" name="rating" value="3">
+                                <label for="star3" class="bi bi-star-fill"></label>
+                                <input type="radio" id="star2" name="rating" value="2">
+                                <label for="star2" class="bi bi-star-fill"></label>
+                                <input type="radio" id="star1" name="rating" value="1">
+                                <label for="star1" class="bi bi-star-fill"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <style>
+                        .star-rating {
+                            direction: rtl;
+                            display: inline-block;
+                            cursor: pointer;
+                        }
+
+                        .star-rating input {
+                            display: none;
+                        }
+
+                        .star-rating label {
+                            color: #ddd;
+                            font-size: 24px;
+                            padding: 0 2px;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+                        }
+
+                        .star-rating label:hover,
+                        .star-rating label:hover~label,
+                        .star-rating input:checked~label {
+                            color: #ffc107;
+                        }
+                    </style>
+
+                    <script>
+                        document.querySelectorAll('.star-rating:not(.readonly) label').forEach(star => {
+                            star.addEventListener('click', function() {
+                                this.style.transform = 'scale(1.2)';
+                                setTimeout(() => {
+                                    this.style.transform = 'scale(1)';
+                                }, 200);
+                            });
+                        });
+                    </script>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="mb-4">Похожие товары</h3>
+
+        <div class="d-flex gap-3">
+            {% for product in similar_products %}
+                <a class="link-underline link-underline-opacity-0" href="/product/{{ product.id }}">
+                    <div class="card" style="width: 18rem;">
+                      <img src="{{ product.image_url }}" class="card-img-top" alt="...">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ product.title }}</h5>
+                        <h3 class="card-title mt-3 mb-3 text-primary">{{ product.price }} рублей</h3>
+                        <p class="card-text">{{ product.desc[:45] }}</p>
+                        <form method="post" action="{{ url_for('add_to_cart') }}">
+                            <input type="hidden" name="id" value="{{ product.id }}" />
+                            <input type="hidden" name="title" value="{{ product.title }}" />
+                            <input type="hidden" name="price" value="{{ product.price }}" />
+                            <input type="hidden" name="image_url" value="{{ product.image_url }}" />
+                            <!-- <a href="/product/{{ product.id }}" class="btn btn-primary">Подробнее</a>-->
+                        </form>
+                      </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -24,22 +24,48 @@
         <h3 class="mb-4">Популярные товары</h3>
 
         <div class="d-flex gap-3">
-            {% for product in products %}
-                <div class="card" style="width: 18rem;">
-                  <img src="{{ product.image_url }}" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">{{ product.title }}</h5>
-                    <h3 class="card-title mt-3 mb-3">{{ product.price }} рублей</h3>
-                    <p class="card-text">{{ product.desc[:45] }}</p>
-                    <form method="post" action="{{ url_for('add_to_cart') }}">
-                        <input type="hidden" name="id" value="{{ product.id }}" />
-                        <input type="hidden" name="title" value="{{ product.title }}" />
-                        <input type="hidden" name="price" value="{{ product.price }}" />
-                        <input type="hidden" name="image_url" value="{{ product.image_url }}" />
-                        <button class="btn btn-primary" type="submit">Добавить в корзину</button>
-                    </form>
-                  </div>
-                </div>
+            {% for product in popular_products %}
+                <a class="link-underline link-underline-opacity-0" href="/product/{{ product.id }}">
+                    <div class="card" style="width: 18rem;">
+                      <img src="{{ product.image_url }}" class="card-img-top" alt="...">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ product.title }}</h5>
+                        <h3 class="card-title mt-3 mb-3 text-primary">{{ product.price }} рублей</h3>
+                        <p class="card-text">{{ product.desc[:45] }}</p>
+                        <form method="post" action="{{ url_for('add_to_cart') }}">
+                            <input type="hidden" name="id" value="{{ product.id }}" />
+                            <input type="hidden" name="title" value="{{ product.title }}" />
+                            <input type="hidden" name="price" value="{{ product.price }}" />
+                            <input type="hidden" name="image_url" value="{{ product.image_url }}" />
+                            <!-- <a href="/product/{{ product.id }}" class="btn btn-primary">Подробнее</a>-->
+                        </form>
+                      </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+
+        <h3 class="mb-4">Футболки</h3>
+
+        <div class="d-flex gap-3">
+            {% for product in tshirts %}
+                <a class="link-underline link-underline-opacity-0" href="/product/{{ product.id }}">
+                    <div class="card" style="width: 18rem;">
+                      <img src="{{ product.image_url }}" class="card-img-top" alt="...">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ product.title }}</h5>
+                        <h3 class="card-title mt-3 mb-3 text-primary">{{ product.price }} рублей</h3>
+                        <p class="card-text">{{ product.desc[:45] }}</p>
+                        <form method="post" action="{{ url_for('add_to_cart') }}">
+                            <input type="hidden" name="id" value="{{ product.id }}" />
+                            <input type="hidden" name="title" value="{{ product.title }}" />
+                            <input type="hidden" name="price" value="{{ product.price }}" />
+                            <input type="hidden" name="image_url" value="{{ product.image_url }}" />
+                            <!-- <a href="/product/{{ product.id }}" class="btn btn-primary">Подробнее</a>-->
+                        </form>
+                      </div>
+                    </div>
+                </a>
             {% endfor %}
         </div>
     </div>

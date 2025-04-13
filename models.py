@@ -58,3 +58,12 @@ class OrderByProduct(db.Model):
 
     product = db.relationship('Product', backref='orders_by_products')
     order = db.relationship('Order', backref='orders_by_products')
+
+
+class Review(db.Model):
+    __tablename__ = 'reviews'
+
+    id = db.Column(db.Integer, primary_key=True)
+    stars = db.Column(db.Integer, nullable=False)
+    text = db.Column(db.String)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'))

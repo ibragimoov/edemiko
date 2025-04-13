@@ -18,8 +18,9 @@ def calc_cart(cart_items):
 def register_routes(app, db, bcrypt):
     @app.route('/')
     def index():
-        all_products = Product.query.all()
-        return render_template('index.html', products=all_products)
+        all_products = Product.query.limit(4).all()
+        tshirts = Product.query.filter(Product.category_id == 2).limit(4).all()
+        return render_template('index.html', popular_products=all_products, tshirts=tshirts)
 
     cart_items = []
     @app.route('/cart')
@@ -51,10 +52,11 @@ def register_routes(app, db, bcrypt):
         price = request.form['price']
         id = request.form['id']
         image_url = request.form['image_url']
+        count = request.form['count']
 
         for item in cart_items:
             if item['id'] == int(id):
-                item['count'] += 1
+                item['count'] += int(count)
                 return redirect(url_for('cart'))
 
         cart_items.append({
@@ -62,7 +64,7 @@ def register_routes(app, db, bcrypt):
             "title": title,
             "price": int(price),
             "image_url": image_url,
-            "count": 1
+            "count": int(count)
         })
 
         return redirect(url_for('cart'))
@@ -91,7 +93,7 @@ def register_routes(app, db, bcrypt):
                 db.session.add(new_user)
                 db.session.commit()
 
-                return redirect(url_for('index'))
+                return redirect(url_for('signin'))
             else:
                 return render_template('signup.html', error=f'пользователь {email} уже есть')
 
@@ -178,3 +180,15 @@ def register_routes(app, db, bcrypt):
         products_in_order = OrderByProduct.query.filter(OrderByProduct.order_id == order.id).all()
 
         return render_template('order_details.html', order=order, products_in_order=products_in_order)
+
+
+    @app.route('/product/<int:id>')
+    def product(id):
+        product_info = Product.query.get(id)
+
+        if not product_info:
+            return redirect(url_for('index'))
+
+        similar_products = Product.query.filter(Product.category_id == product_info.category_id, Product.id != id).all()
+
+        return render_template('product.html', product=product_info, similar_products=similar_products)
