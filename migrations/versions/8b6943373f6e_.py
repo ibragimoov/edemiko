@@ -1,8 +1,8 @@
-"""Recreate migrations
+"""empty message
 
-Revision ID: 747083fe87ba
+Revision ID: 8b6943373f6e
 Revises: 
-Create Date: 2025-03-20 20:42:37.474687
+Create Date: 2025-04-09 20:37:27.799970
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '747083fe87ba'
+revision = '8b6943373f6e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -36,7 +36,9 @@ def upgrade():
     op.create_table('orders',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
-    sa.Column('total', sa.Integer(), nullable=True),
+    sa.Column('total', sa.Integer(), nullable=False),
+    sa.Column('address', sa.String(), nullable=False),
+    sa.Column('post_code', sa.String(), nullable=False),
     sa.Column('status', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -56,6 +58,8 @@ def upgrade():
     sa.Column('order_id', sa.Integer(), nullable=True),
     sa.Column('product_id', sa.Integer(), nullable=True),
     sa.Column('count', sa.Integer(), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['order_id'], ['orders.id'], ),
     sa.ForeignKeyConstraint(['product_id'], ['products.id'], ),
     sa.PrimaryKeyConstraint('id')

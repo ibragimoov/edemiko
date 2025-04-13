@@ -1,5 +1,6 @@
 from app import db
 from flask_login import UserMixin
+from datetime import datetime
 
 
 class User(db.Model, UserMixin):
@@ -51,6 +52,9 @@ class OrderByProduct(db.Model):
     order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
     count = db.Column(db.Integer)
+
+    created_at = db.Column(db.DateTime, default=datetime.now)
+    updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.utcnow, nullable=False)
 
     product = db.relationship('Product', backref='orders_by_products')
     order = db.relationship('Order', backref='orders_by_products')
