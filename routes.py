@@ -165,7 +165,6 @@ def register_routes(app, db, bcrypt):
     @app.route('/profile')
     def profile():
         orders = Order.query.filter(Order.user_id == current_user.id).all()
-        print(orders)
 
         return render_template('profile.html', orders=orders)
 
@@ -192,3 +191,17 @@ def register_routes(app, db, bcrypt):
         similar_products = Product.query.filter(Product.category_id == product_info.category_id, Product.id != id).all()
 
         return render_template('product.html', product=product_info, similar_products=similar_products)
+
+
+    @app.route('/search', methods=['GET'])
+    def search():
+        search_query = request.args['query']
+
+        products = Product.query.filter(Product.title.ilike(f'%{search_query}%')).all()
+
+        if len(products) == 0:
+            other_products = Product.query.limit(4).all()
+        else:
+            other_products = []
+
+        return render_template('search.html', search_query=search_query, products=products, other_products=other_products)

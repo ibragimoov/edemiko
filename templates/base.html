@@ -49,9 +49,9 @@
                 </a>
               </div>
             {% endif %}
-          <form class="d-flex" role="search">
+          <form method="get" action="{{ url_for('search') }}" class="d-flex" role="search">
             <div class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Поиск..." aria-label="Search">
+                <input class="form-control me-2" name="query" type="search" placeholder="Поиск..." aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Поиск</button>
             </div>
           </form>
