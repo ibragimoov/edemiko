@@ -8,9 +8,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
+    <nav class="navbar navbar-dark bg-primary navbar-expand-lg p-3">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/">Edem</a>
+        <a class="navbar-brand" href="/">Edemiko</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -29,7 +29,7 @@
               <a class="nav-link" href="/cart">Корзина</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">О нас</a>
+              <a class="nav-link" href="/about">О нас</a>
             </li>
             {% if not current_user.is_authenticated %}
               <li class="nav-item">
@@ -43,18 +43,12 @@
               </form>
               <div class="">
                 <a href="/profile">
-                    <div class="mx-2 rounded-circle border d-flex justify-content-center align-items-center" style="width:40px;height:40px" alt="Avatar">
+                    <div class="mx-2 bg-light rounded-circle border d-flex justify-content-center align-items-center" style="width:40px;height:40px" alt="Avatar">
                         {{ current_user.first_name[0] }}
                     </div>
                 </a>
               </div>
             {% endif %}
-          <form method="get" action="{{ url_for('search') }}" class="d-flex" role="search">
-            <div class="d-flex">
-                <input class="form-control me-2" name="query" type="search" placeholder="Поиск..." aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Поиск</button>
-            </div>
-          </form>
         </div>
       </div>
     </nav>

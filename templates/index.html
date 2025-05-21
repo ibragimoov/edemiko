@@ -4,68 +4,32 @@
 
 {% block content %}
     <div class="p-3">
-        <h1 class="mt-5">Добро пожаловать в магазин</h1>
-        <p class="mb-5">здесь вы можете приобрести все необходимое</p>
-
-        <div id="carouselExampleSlidesOnly" class="carousel slide rounded-2 mb-4" data-bs-ride="carousel">
-          <div class="carousel-inner rounded-5" style="height: 300px;">
-            <div class="carousel-item active">
-              <img src="https://cdn1.ozonusercontent.com/s3/sellerassets/ww2150_q80/de62f815-dcc8-11ef-861a-2ad8ccf117da.jpeg" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-              <img src="https://cdn1.ozonusercontent.com/s3/sellerassets/ww2150_q80/49f49f51-0407-11f0-a287-2e43a6891abe.jpeg" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-              <img src="https://cdn1.ozonusercontent.com/s3/sellerassets/ww2150_q80/950a3dc9-f295-11ef-85f7-9e63553279c8.jpeg" class="d-block w-100" alt="...">
-            </div>
-          </div>
+        <div class="mt-5 d-flex gap-2 align-items-center">
+            <h1 class="">Последние посты!</h1>
+            {% if current_user.is_authenticated %}
+                <button class="btn btn-primary h-25">Создать пост</button>
+            {% endif %}
         </div>
+        <p class="mb-5">здесь вы можете прочитать актуальные посты</p>
 
-        <h3 class="mb-4">Популярные товары</h3>
+        <div class="w-25">
+            {% for post in posts %}
+                <div class="card mb-3">
+                 <div class="d-flex align-items-center py-2">
+                  <div class="mx-2 bg-light rounded-circle border d-flex justify-content-center align-items-center" style="width:40px;height:40px" alt="Avatar"></div>
+                  <p class="card-text">{{ post.user.first_name + ' ' + post.user.last_name }}</p>
+                 </div>
 
-        <div class="d-flex gap-3">
-            {% for product in popular_products %}
-                <a class="link-underline link-underline-opacity-0" href="/product/{{ product.id }}">
-                    <div class="card" style="width: 18rem;">
-                      <img src="{{ product.image_url }}" class="card-img-top" alt="...">
-                      <div class="card-body">
-                        <h5 class="card-title">{{ product.title }}</h5>
-                        <h3 class="card-title mt-3 mb-3 text-primary">{{ product.price }} рублей</h3>
-                        <p class="card-text">{{ product.desc[:45] }}</p>
-                        <form method="post" action="{{ url_for('add_to_cart') }}">
-                            <input type="hidden" name="id" value="{{ product.id }}" />
-                            <input type="hidden" name="title" value="{{ product.title }}" />
-                            <input type="hidden" name="price" value="{{ product.price }}" />
-                            <input type="hidden" name="image_url" value="{{ product.image_url }}" />
-                            <!-- <a href="/product/{{ product.id }}" class="btn btn-primary">Подробнее</a>-->
-                        </form>
-                      </div>
+                  <img src="{{ post.image_url }}" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.content | safe }}</p>
+                    <div class="d-flex gap-3 align-items-center">
+                        <img width="30" src="https://images.vexels.com/media/users/3/157338/isolated/preview/4952c5bde17896bea3e8c16524cd5485-facebook-like-symbol.png" />
+                        <p class="mb-0">{{ post.likes }}</p>
                     </div>
-                </a>
-            {% endfor %}
-        </div>
-
-        <h3 class="mb-4">Футболки</h3>
-
-        <div class="d-flex gap-3">
-            {% for product in tshirts %}
-                <a class="link-underline link-underline-opacity-0" href="/product/{{ product.id }}">
-                    <div class="card" style="width: 18rem;">
-                      <img src="{{ product.image_url }}" class="card-img-top" alt="...">
-                      <div class="card-body">
-                        <h5 class="card-title">{{ product.title }}</h5>
-                        <h3 class="card-title mt-3 mb-3 text-primary">{{ product.price }} рублей</h3>
-                        <p class="card-text">{{ product.desc[:45] }}</p>
-                        <form method="post" action="{{ url_for('add_to_cart') }}">
-                            <input type="hidden" name="id" value="{{ product.id }}" />
-                            <input type="hidden" name="title" value="{{ product.title }}" />
-                            <input type="hidden" name="price" value="{{ product.price }}" />
-                            <input type="hidden" name="image_url" value="{{ product.image_url }}" />
-                            <!-- <a href="/product/{{ product.id }}" class="btn btn-primary">Подробнее</a>-->
-                        </form>
-                      </div>
-                    </div>
-                </a>
+                  </div>
+                </div>
             {% endfor %}
         </div>
     </div>

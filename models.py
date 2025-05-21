@@ -18,52 +18,19 @@ class Category(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
-    image_url = db.Column(db.String)
 
 
-class Product(db.Model):
-    __tablename__ = 'products'
+class Post(db.Model):
+    __tablename__ = 'posts'
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
-    price = db.Column(db.Integer, nullable=False)
+    likes = db.Column(db.Integer, default=0)
     image_url = db.Column(db.String)
-    desc = db.Column(db.String)
+    content = db.Column(db.String)
+    created = db.Column(db.DateTime, default=datetime.utcnow())
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
-
-    category = db.relationship('Category', backref='products')
-
-
-class Order(db.Model):
-    __tablename__ = 'orders'
-
-    id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    total = db.Column(db.Integer, nullable=False)
-    address = db.Column(db.String, nullable=False)
-    post_code = db.Column(db.String, nullable=False)
-    status = db.Column(db.String, default='Новый')
 
-
-class OrderByProduct(db.Model):
-    __tablename__ = 'orders_by_products'
-
-    id = db.Column(db.Integer, primary_key=True)
-    order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
-    product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
-    count = db.Column(db.Integer)
-
-    created_at = db.Column(db.DateTime, default=datetime.now)
-    updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.utcnow, nullable=False)
-
-    product = db.relationship('Product', backref='orders_by_products')
-    order = db.relationship('Order', backref='orders_by_products')
-
-
-class Review(db.Model):
-    __tablename__ = 'reviews'
-
-    id = db.Column(db.Integer, primary_key=True)
-    stars = db.Column(db.Integer, nullable=False)
-    text = db.Column(db.String)
-    product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
+    category = db.relationship('Category', backref='posts')
+    user = db.relationship('User', backref='posts')

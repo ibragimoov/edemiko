@@ -16,34 +16,5 @@
               </form>
           </div>
         </div>
-
-        <table class="table table-striped w-50">
-          <thead>
-            <tr>
-              <th scope="col">№</th>
-              <th scope="col">Итого</th>
-              <th scope="col">Адрес</th>
-              <th scope="col">Статус</th>
-              <th scope="col">Еще</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for order in orders %}
-                <tr>
-                    <th scope="row">{{ order.id }}</th>
-                    <td>{{ order.total }} ₽</td>
-                    <td>{{ order.address }}</td>
-                    <td>{{ order.status }}</td>
-                    <td>
-                        <a class="text-decoration-none text-white" href="/order/{{ order.id }}">
-                            <button class="btn btn-dark">
-                                Подробнее
-                            </button>
-                        </a>
-                    </td>
-                </tr>
-            {% endfor %}
-          </tbody>
-        </table>
     </div>
 {% endblock %}
