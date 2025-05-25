@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, request
-from models import User, Post
+from models import User, Post, Category
 from flask_login import login_user, current_user, logout_user
 from markdown import markdown
 
@@ -69,3 +69,9 @@ def register_routes(app, db, bcrypt):
     @app.route('/profile', methods=['GET'])
     def profile():
         return render_template('profile.html')
+
+    @app.route('/category')
+    def category():
+        categories = Category.query.all()
+
+        return render_template('category.html', categories=categories)

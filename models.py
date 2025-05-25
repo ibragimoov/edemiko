@@ -18,6 +18,7 @@ class Category(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
+    image_url = db.Column(db.String)
 
 
 class Post(db.Model):
