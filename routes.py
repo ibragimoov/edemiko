@@ -75,3 +75,25 @@ def register_routes(app, db, bcrypt):
         categories = Category.query.all()
 
         return render_template('category.html', categories=categories)
+
+
+    @app.route('/create-post', methods=['GET', 'POST'])
+    def create_post():
+        if request.method == 'GET':
+            categories = Category.query.all()
+            return render_template('create_post.html', categories=categories)
+        elif request.method == 'POST':
+            title = request.form['title']
+            content = request.form['content']
+            image_url = request.form['image_url']
+            cid = request.form['category_id']
+
+            if len(title) == 0 or len(content) == 0:
+                return render_template('create_post.html', error='Не все поля заполнены')
+
+            post = Post(title=title, category_id=cid, content=content, image_url=image_url, user_id=current_user.id)
+
+            db.session.add(post)
+            db.session.commit()
+
+            return redirect(url_for('index'))

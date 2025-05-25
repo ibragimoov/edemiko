@@ -7,7 +7,11 @@
         <div class="mt-5 d-flex gap-2 align-items-center">
             <h1 class="">Последние посты!</h1>
             {% if current_user.is_authenticated %}
-                <button class="btn btn-primary h-25">Создать пост</button>
+                <button class="btn btn-primary h-25">
+                    <a href="/create-post" class="text-white">
+                        Создать пост
+                    </a>
+                </button>
             {% endif %}
         </div>
         <p class="mb-5">здесь вы можете прочитать актуальные посты</p>
