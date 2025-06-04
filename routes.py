@@ -2,11 +2,12 @@ from flask import render_template, redirect, url_for, request
 from models import User, Post, Category, UserLikes
 from flask_login import login_user, current_user, logout_user
 from markdown import markdown
+from sqlalchemy import desc
 
 def register_routes(app, db, bcrypt):
     @app.route('/')
     def index():
-        posts = Post.query.limit(10).all()
+        posts = Post.query.order_by(desc(Post.created)).limit(10).all()
 
         liked_post_ids = []
         if current_user.is_authenticated:
