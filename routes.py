@@ -73,7 +73,6 @@ def register_routes(app, db, bcrypt):
     @app.route('/category')
     def category():
         categories = Category.query.all()
-
         return render_template('category.html', categories=categories)
 
 
@@ -94,6 +93,24 @@ def register_routes(app, db, bcrypt):
             post = Post(title=title, category_id=cid, content=content, image_url=image_url, user_id=current_user.id)
 
             db.session.add(post)
+            db.session.commit()
+
+            return redirect(url_for('index'))
+
+    @app.route('/create-category', methods=['GET', 'POST'])
+    def create_category():
+        if request.method == 'GET':
+            return render_template('create_category.html')
+        elif request.method == 'POST':
+            title = request.form['title']
+            image_url = request.form['image_url']
+
+            if len(title) == 0:
+                return render_template('create_post.html', error='Укажите название категории')
+
+            category = Category(title=title, image_url=image_url)
+
+            db.session.add(category)
             db.session.commit()
 
             return redirect(url_for('index'))
