@@ -35,3 +35,14 @@ class Post(db.Model):
 
     category = db.relationship('Category', backref='posts')
     user = db.relationship('User', backref='posts')
+
+
+class UserLikes(db.Model):
+    __tablename__ = 'user_likes'
+
+    id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    post = db.relationship('Post', backref='user_likes')
+    user = db.relationship('User', backref='user_likes')

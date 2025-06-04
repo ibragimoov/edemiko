@@ -3,7 +3,7 @@
 {% block title %}Главная{% endblock %}
 
 {% block content %}
-    <div class="p-3">
+    <div class="p-3 d-flex flex-column align-items-center mx-auto" style="max-width: 600px">
         <div class="mt-5 d-flex gap-2 align-items-center">
             <h1 class="">Последние посты!</h1>
             {% if current_user.is_authenticated %}
@@ -21,7 +21,7 @@
         </div>
         <p class="mb-5">здесь вы можете прочитать актуальные посты</p>
 
-        <div class="w-25">
+        <div>
             {% for post in posts %}
                 <div class="card mb-3">
                  <div class="d-flex align-items-center py-2">
@@ -31,12 +31,17 @@
 
                   <img src="{{ post.image_url }}" class="card-img-top" alt="...">
                   <div class="card-body">
-                    <h5 class="card-title">{{ post.title }}</h5>
+                    <h3 class="card-title">{{ post.title }}</h3>
                     <p class="card-text">{{ post.content | safe }}</p>
-                    <div class="d-flex gap-3 align-items-center">
-                        <img width="30" src="https://images.vexels.com/media/users/3/157338/isolated/preview/4952c5bde17896bea3e8c16524cd5485-facebook-like-symbol.png" />
-                        <p class="mb-0">{{ post.likes }}</p>
-                    </div>
+                    <form method="post"
+                      action="{{ url_for('post_like', post_id=post.id) }}"
+                      class="d-flex gap-1 align-items-center like-form"
+                      data-post-id="{{ post.id }}">
+                    <button type="submit" class="btn {% if post.id in liked_post_ids %}btn-danger{% else %}btn-light{% endif %}">
+                      <img width="30" src="https://images.vexels.com/media/users/3/157338/isolated/preview/4952c5bde17896bea3e8c16524cd5485-facebook-like-symbol.png" />
+                    </button>
+                    <p class="mb-0 fw-semibold likes-count">{{ post.likes }}</p>
+                </form>
                   </div>
                 </div>
             {% endfor %}
