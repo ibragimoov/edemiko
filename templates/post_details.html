@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}{post.title}{% endblock %}
+
+{% block content %}
+    <div class="m-4" style="max-width: 500px">
+        <div class="card mb-3">
+            <div class="d-flex align-items-center py-2">
+                <div class="mx-2 bg-light rounded-circle border d-flex justify-content-center align-items-center" style="width:40px;height:40px" alt="Avatar"></div>
+                <p class="card-text text-center">{{ post.user.first_name + ' ' + post.user.last_name }}</p>
+            </div>
+
+            <img src="{{ post.image_url }}" class="card-img-top" alt="...">
+
+            <div class="card-body">
+                <h3 class="card-title">
+                    <a class="text-decoration-none text-reset" href="/post/{{post.id}}">{{ post.title }}</a>
+                </h3>
+                <p class="card-text">{{ post.content | safe }}</p>
+
+                <form method="post"
+                    action="{{ url_for('post_like', post_id=post.id) }}"
+                    class="d-flex gap-1 align-items-center like-form"
+                    data-post-id="{{ post.id }}"
+                >
+                    <button type="submit" class="btn {% if post.id in liked_post_ids %}btn-danger{% else %}btn-light{% endif %}">
+                        <img width="30" src="https://images.vexels.com/media/users/3/157338/isolated/preview/4952c5bde17896bea3e8c16524cd5485-facebook-like-symbol.png" />
+                    </button>
+                    <p class="mb-0 fw-semibold likes-count">{{ post.likes }}</p>
+                </form>
+            </div>
+        </div>
+
+        <div class="d-flex gap-2">
+            <input class="form-control" placeholder="Введите комментарий" />
+            <button class="btn btn-primary">Отправить</button>
+        </div>
+
+        <h4 class="my-4">Комментарии</h4>
+        {% for comment in comments %}
+            {% if comment.user.id == comment.post.user_id %}
+                <div class="card border-primary mb-3" style="max-width: 18rem;">
+                    <div class="card-header">{{comment.user.first_name + ' ' + comment.user.last_name}}</div>
+                    <div class="card-body text-primary">
+                        <p class="card-text">{{comment.text}}</p>
+                    </div>
+                </div>
+            {% else %}
+                <div class="card border-dark mb-3" style="max-width: 18rem;">
+                    <div class="card-header">{{comment.user.first_name + ' ' + comment.user.last_name}}</div>
+                    <div class="card-body">
+                        <p class="card-text">{{comment.text}}</p>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

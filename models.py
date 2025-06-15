@@ -37,6 +37,18 @@ class Post(db.Model):
     user = db.relationship('User', backref='posts')
 
 
+class Comment(db.Model):
+    __tablename__ = 'comments'
+
+    id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    text = db.Column(db.String)
+
+    post = db.relationship('Post', backref='comments')
+    user = db.relationship('User', backref='comments')
+
+
 class UserLikes(db.Model):
     __tablename__ = 'user_likes'
 

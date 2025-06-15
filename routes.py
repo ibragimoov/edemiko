@@ -1,8 +1,8 @@
 from flask import render_template, redirect, url_for, request
-from models import User, Post, Category, UserLikes
+from models import User, Post, Category, UserLikes, Comment
 from flask_login import login_user, current_user, logout_user
 from markdown import markdown
-from sqlalchemy import desc
+from sqlalchemy import desc, case
 
 def register_routes(app, db, bcrypt):
     @app.route('/')
@@ -70,7 +70,6 @@ def register_routes(app, db, bcrypt):
         logout_user()
         return redirect(url_for('index'))
 
-
     @app.route('/profile', methods=['GET'])
     def profile():
         return render_template('profile.html')
@@ -79,7 +78,6 @@ def register_routes(app, db, bcrypt):
     def category():
         categories = Category.query.all()
         return render_template('category.html', categories=categories)
-
 
     @app.route('/create-post', methods=['GET', 'POST'])
     def create_post():
@@ -120,7 +118,6 @@ def register_routes(app, db, bcrypt):
 
             return redirect(url_for('index'))
 
-
     @app.route('/post_like/<int:post_id>', methods=['POST'])
     def post_like(post_id):
         if not current_user.is_authenticated:
@@ -149,3 +146,16 @@ def register_routes(app, db, bcrypt):
             db.session.commit()
 
         return redirect(url_for('index'))
+
+    @app.route('/post/<int:post_id>')
+    def post_details(post_id):
+        post = Post.query.get(post_id)
+
+        author_first = case(
+            (Comment.user_id == post.user.id, 0),
+            else_=1
+        )
+
+        comments = Comment.query.filter_by(post_id=post_id).order_by(author_first).all()
+
+        return render_template('post_details.html', post=post, comments=comments)
